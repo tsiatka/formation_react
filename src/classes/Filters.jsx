@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 
-class Filters extends Component {
-    render() {
-        const { isElectric } = this.props;
-        return (
-            <button className="filter" onClick={() => this.props.displayElectric()}>{isElectric ? 'Afficher tous' : 'Filtrer electrique' }</button>
-        );
-      }
+function Filters({ types, select }) {
+  const boutons = types.map((type) => (
+    <button className="filter" onClick={() => select(type)} key={type}>
+      {type}
+    </button>
+  ));
+  return (
+    <div className="filters">
+      <button className="filter" onClick={() => select(null)} key={null}>
+        Tous les types
+      </button>
+      {boutons}
+    </div>
+  );
 }
 
-export default Filters
-  
+export default Filters;

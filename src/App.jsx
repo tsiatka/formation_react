@@ -3,29 +3,73 @@ import React, { Component } from "react";
 import PokemonList from "./classes/PokemonList";
 import Trainer from "./classes/Trainer";
 import Filters from "./classes/Filters";
+import fetchPokemon from "./utils/fetchPokemon";
 
 class App extends Component {
   constructor() {
-    super(); 
+    super();
     this.state = {
-      isElectric: false,
+      selected: "",
+      captured: [],
     };
+    this.select = this.select.bind(this);
+    this.capture = this.capture.bind(this);
+    this.remove = this.remove.bind(this);
   }
-  displayElectric(){
-    this.setState({ isElectric: !this.state.isElectric });
+
+  select(name) {
+    this.setState({ selected: name });
   }
+  capture(pokemon) {
+    this.setState({ captured: [...this.state.captured, pokemon] });
+  }
+  remove(id) {
+    let copy = [...this.state.captured];
+    copy.splice(id, 1);
+    this.setState({ captured: copy });
+  }
+
+  async componentDidMount() {
+    const data = await fetchPokemon();
+    this.setState({ data: data });
+  }
+
   render() {
-    const { data } = this.props;
-    const electricPokemons = data.filter((pokemon) => pokemon.types.find(el => el.type.name === 'electric'));
-    const pokemonsListe = <PokemonList data={this.state.isElectric ? electricPokemons : data  }/>;
+    const { data } = this.state;
+
+    if (!data) {
+      return <div>Loading...</div>;
+    }
+
+    let types = data.flatMap((pokemon) =>
+      pokemon.types.map((t) => t.type.name)
+    );
+    types = [...new Set(types)];
+
+    const filteredPokemons = data.filter((pokemon) =>
+      pokemon.types.map((el) => el.type.name).includes(this.state.selected)
+    );
+
+    const pokemonsListe = (
+      <PokemonList
+        capture={this.capture}
+        data={this.state.selected ? filteredPokemons : data}
+      />
+    );
+
+    const trainedPokemon = this.state.captured;
+
     const trainer = (
       <Trainer
         name="Sacha"
         address="Bourgpalette"
-        trainedPokemon={[data[0], data[5], data[24], data[16], data[6]]}
+        trainedPokemon={trainedPokemon}
+        remove={this.remove}
       />
     );
-    const filters = <Filters displayElectric={()=>this.displayElectric()} isElectric={this.state.isElectric} />;
+
+    const filters = <Filters types={types} select={this.select} />;
+
     return (
       <>
         {trainer}
