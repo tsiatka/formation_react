@@ -1,8 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './index.scss';
+import App from "./App";
 
-const pokemon = <div>Pikachu</div>;
+import "./index.scss";
 
-ReactDOM.render(pokemon, document.getElementById('root'));
+import data from "./_data/pokemon.json";
+
+
+ReactDOM.render(
+  <App data={data}/>,
+  document.getElementById("root")
+);

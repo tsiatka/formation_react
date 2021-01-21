@@ -39,13 +39,31 @@ code {
 }
 
 .Trainer {
-  display: flex;
-  align-items: baseline;
   background: lightblue;
+  text-align: center;
+  padding:2em;
 
   .name {
     margin: 1rem;
     color: unset;
     font-size: 1.5rem;
   }
+}
+.trainedPokemons, .pokemons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.pokedex {
+  text-align: center;
+  padding:2em;
+}
+h3 {
+  font-size: 2em;
+}
+.filter {
+  text-align: center;
+  padding:3px;
+  margin: 10px auto;
 }
