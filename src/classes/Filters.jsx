@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 function Filters({ types, select }) {
   const boutons = types.map((type) => (

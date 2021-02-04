@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import TrainedPokemon from "./TrainedPokemon";
 
 function Trainer({ name, address, trainedPokemon, remove }) {
